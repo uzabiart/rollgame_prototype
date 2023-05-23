@@ -9,12 +9,12 @@ public class ShowDice : MonoBehaviour
     private void OnEnable()
     {
         GlobalEvents.OnShowDice += ShowEdit;
-        GlobalEvents.DiceUpgraded += Hide;
+        GlobalEvents.OnDiceUpgraded += Hide;
     }
     private void OnDisable()
     {
         GlobalEvents.OnShowDice -= ShowEdit;
-        GlobalEvents.DiceUpgraded -= Hide;
+        GlobalEvents.OnDiceUpgraded -= Hide;
     }
 
     private void ShowEdit()

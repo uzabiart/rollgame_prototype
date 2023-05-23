@@ -7,6 +7,7 @@ public class SideData : ScriptableObject
 {
     public Sprite icon;
     public int addValue;
+    public int weight;
     [TextArea(4, 10)]
     public string description;
 }

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public SideData currentSide;
     public GameStates state;
+    public bool showWeight;
 
     public List<SideData> availableSides = new List<SideData>();
 
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         state = GameStates.Gameplay;
+        GlobalEvents.OnInit?.Invoke();
     }
 
     private void OnEnable()
@@ -51,17 +53,23 @@ public class GameManager : MonoBehaviour
         {
             if (currentSide != GlobalData.CurrentDice.sides[obj.id].data)
             {
-                GlobalEvents.DiceUpgraded?.Invoke();
+                GlobalEvents.OnDiceUpgraded?.Invoke();
                 GlobalData.CurrentDice.sides[obj.id].UpdateSide(currentSide);
                 currentSide = null;
             }
         }
 
-        GlobalEvents.UpdateView?.Invoke();
+        GlobalEvents.OnUpdateView?.Invoke();
     }
 
     public void ChangeGameState(GameStates newState)
     {
         state = newState;
     }
+}
+
+[System.Serializable]
+public class SidesPerLevel
+{
+    public List<SideData> sides = new List<SideData>();
 }

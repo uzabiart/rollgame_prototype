@@ -10,6 +10,7 @@ public class Shop : MonoBehaviour
 
     public List<SideObj> sideobjects = new List<SideObj>();
     public Transform parent;
+    public int sidesInShopAmount = 3;
 
     private void Start()
     {
@@ -18,11 +19,11 @@ public class Shop : MonoBehaviour
 
     private void OnEnable()
     {
-        GlobalEvents.DiceUpgraded += Hide;
+        GlobalEvents.OnDiceUpgraded += Hide;
     }
     private void OnDisable()
     {
-        GlobalEvents.DiceUpgraded -= Hide;
+        GlobalEvents.OnDiceUpgraded -= Hide;
     }
 
     private void Hide()
@@ -37,12 +38,18 @@ public class Shop : MonoBehaviour
         }
     }
 
+    public void Refresh()
+    {
+        GlobalEvents.OnRefreshShop?.Invoke();
+        GetSides();
+    }
+
     [Button]
     public void GetSides()
     {
         shopSides.Clear();
         List<SideData> currSides = new List<SideData>(GameManager.Instance.availableSides);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < sidesInShopAmount; i++)
         {
             int random = UnityEngine.Random.Range(0, currSides.Count);
             shopSides.Add(currSides[random]);

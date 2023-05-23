@@ -18,23 +18,53 @@ public class Dice : MonoBehaviour
 
     public List<Side> sides = new List<Side>();
 
+    public int thisCountDown;
+    public int currTick = 0;
+
     public TextMeshProUGUI description;
     public SideData defaultData;
 
     private void OnEnable()
     {
         GlobalEvents.OnRoll += Roll;
-        GlobalEvents.UpdateView += UpdateView;
+        GlobalEvents.OnTick += TickDown;
+        GlobalEvents.OnUpdateView += UpdateView;
+        GlobalEvents.OnInit += UpdateView;
     }
     private void OnDisable()
     {
         GlobalEvents.OnRoll -= Roll;
-        GlobalEvents.UpdateView -= UpdateView;
+        GlobalEvents.OnTick -= TickDown;
+        GlobalEvents.OnUpdateView -= UpdateView;
+        GlobalEvents.OnInit -= UpdateView;
+    }
+
+    private void TickDown()
+    {
+        currTick++;
+        if (currTick >= thisCountDown)
+        {
+            Roll();
+            currTick = 0;
+        }
     }
 
     private void UpdateView()
     {
-        Debug.Log("Update view");
+        thisCountDown = 0;
+        foreach (Side s in sides)
+        {
+            thisCountDown += s.data.weight;
+        }
+    }
+
+    public void BuyDice()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(false);
+        GlobalEvents.OnBuyDice?.Invoke();
+        UpdateView();
     }
 
     private void Start()
@@ -50,19 +80,25 @@ public class Dice : MonoBehaviour
     {
         foreach (Side s in sides)
         {
-            s.UpdateSide(defaultData);
+            if (s.defaultData != null)
+                s.UpdateSide(s.defaultData);
+            else
+                s.UpdateSide(defaultData);
         }
+        UpdateView();
     }
 
     public void SetupSide(SideData newSide, int id)
     {
         sides[id].UpdateSide(newSide);
-
+        UpdateView();
     }
 
     [Button]
     public void Roll()
     {
+        if (transform.GetChild(2).gameObject.activeSelf) return;
+
         transform.GetChild(1).gameObject.SetActive(false);
         int random = UnityEngine.Random.Range(0, sides.Count);
         Side randomSide = sides[random];
@@ -80,6 +116,7 @@ public class Dice : MonoBehaviour
     {
         GlobalData.CurrentDice = this;
         GlobalEvents.OnShowDice?.Invoke();
+        UpdateView();
     }
 }
 
@@ -95,6 +132,7 @@ public class Side
     public int id;
     public Vector3 rot;
     public SideData data;
+    public SideData defaultData;
     public Image icon;
 
     public void UpdateSide(SideData newData)
