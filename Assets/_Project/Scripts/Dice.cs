@@ -134,10 +134,32 @@ public class Side
     public SideData data;
     public SideData defaultData;
     public Image icon;
+    public Transform icons;
 
     public void UpdateSide(SideData newData)
     {
         data = newData;
-        icon.sprite = data.icon;
+        if (data.icons.Length > 0)
+        {
+            icon.gameObject.SetActive(false);
+            icons.gameObject.SetActive(true);
+            int i = 0;
+            foreach (Transform t in icons)
+            {
+                t.gameObject.SetActive(false);
+            }
+            foreach (Sprite s in data.icons)
+            {
+                icons.GetChild(i).gameObject.SetActive(true);
+                icons.GetChild(i).GetComponent<Image>().sprite = s;
+                i++;
+            }
+        }
+        else
+        {
+            icon.sprite = data.icon;
+            icon.gameObject.SetActive(true);
+            icons.gameObject.SetActive(false);
+        }
     }
 }

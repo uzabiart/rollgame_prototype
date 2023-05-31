@@ -15,6 +15,8 @@ public class CurrentEarning : MonoBehaviour
 
     public void Add()
     {
+        if (GameRules_Icons.Instance != null)
+            GameRules_Icons.Instance.AddCoins(currentEarning);
         if (AutobattlerRules.Instance != null)
             AutobattlerRules.Instance.AddCoins(currentEarning);
         if (GameRulesBattlegrounds.Instance != null)
@@ -25,6 +27,8 @@ public class CurrentEarning : MonoBehaviour
     }
     public void Remove()
     {
+        if (GameRules_Icons.Instance != null)
+            GameRules_Icons.Instance.RemoveCoins(currentEarning);
         if (AutobattlerRules.Instance != null)
             AutobattlerRules.Instance.RemoveCoins(currentEarning);
         if (GameRulesBattlegrounds.Instance != null)

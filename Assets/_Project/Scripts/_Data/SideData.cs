@@ -6,6 +6,7 @@ using UnityEngine;
 public class SideData : ScriptableObject
 {
     public Sprite icon;
+    public Sprite[] icons;
     public int addValue;
     public int weight;
     [TextArea(4, 10)]

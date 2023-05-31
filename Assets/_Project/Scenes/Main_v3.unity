@@ -4635,6 +4635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSide: {fileID: 0}
   state: 0
+  showWeight: 0
   availableSides:
   - {fileID: 11400000, guid: 560389cc35badd444bbf1da77258d393, type: 2}
   - {fileID: 11400000, guid: a7d21e9a520a49349a8ad7d340e099cf, type: 2}
@@ -5188,6 +5189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSide: {fileID: 0}
   state: 0
+  showWeight: 0
   availableSides:
   - {fileID: 11400000, guid: 45aab055301b76645b3cf8ddf9a3bcfe, type: 2}
   - {fileID: 11400000, guid: c14a5cd94bca33948b680b6b7aad3f70, type: 2}
@@ -13117,7 +13119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  icons: {fileID: 0}
   desc: {fileID: 5012132993242591662}
+  weight: {fileID: 0}
   data: {fileID: 0}
   id: 0
   enbld: {fileID: 0}
